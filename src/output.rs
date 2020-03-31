@@ -67,7 +67,12 @@ fn print_entry_colorized(
             .map(Style::to_ansi_term_style)
             .unwrap_or(default_style);
 
-        write!(stdout, "{}", style.paint(component.to_string_lossy()))?;
+        let replaced_path = style.paint(component.to_string_lossy().replace(
+            std::path::MAIN_SEPARATOR,
+            &config.path_separator.to_string(),
+        ));
+
+        write!(stdout, "{}", replaced_path)?;
 
         if wants_to_quit.load(Ordering::Relaxed) {
             writeln!(stdout)?;
@@ -89,6 +94,9 @@ fn print_entry_uncolorized(
 ) -> io::Result<()> {
     let separator = if config.null_separator { "\0" } else { "\n" };
 
-    let path_str = path.to_string_lossy();
+    let path_str = path.to_string_lossy().replace(
+        std::path::MAIN_SEPARATOR,
+        &config.path_separator.to_string(),
+    );
     write!(stdout, "{}{}", path_str, separator)
 }

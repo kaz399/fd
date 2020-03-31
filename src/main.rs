@@ -240,6 +240,10 @@ fn main() {
             .values_of("ignore-file")
             .map(|vs| vs.map(PathBuf::from).collect())
             .unwrap_or_else(|| vec![]),
+        path_separator: matches
+            .value_of("path-separator")
+            .map(|sep| sep.chars().nth(0).unwrap())
+            .unwrap_or(std::path::MAIN_SEPARATOR),
         size_constraints: size_limits,
         time_constraints,
         show_filesystem_errors: matches.is_present("show-errors"),

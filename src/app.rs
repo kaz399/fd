@@ -217,6 +217,11 @@ pub fn build_app() -> App<'static, 'static> {
                 .hidden_short_help(true)
                 .number_of_values(1),
         )
+        .arg(
+            arg("path-separator")
+                .long("path-separator")
+                .takes_value(true),
+        )
 }
 
 #[rustfmt::skip]
@@ -375,5 +380,9 @@ fn usage() -> HashMap<&'static str, Help> {
         , "(hidden)"
         , "Provide paths to search as an alternative to the positional <path> argument. \
            Changes the usage to `fd [FLAGS/OPTIONS] --search-path <path> --search-path <path2> [<pattern>]`");
+    doc!(h, "path-separator"
+         , "Set the path separator (default: / on Unix, \\ on Windows)"
+         , "Set the path separator to use when printing file paths. \
+            This defaults to your platform's path separator.");
     h
 }
